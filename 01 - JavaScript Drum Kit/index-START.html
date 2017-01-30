@@ -59,6 +59,69 @@
 
 <script>
 
+// Data attributes are made up for the sake of stylin' and scriptin'.
+
+var audioClips = document.getElementsByTagName('audio');
+var keys = document.getElementsByClassName('key');
+
+// Add class and play sound.
+
+window.addEventListener('keydown', function(e) {
+
+  for(var i = 0; i < keys.length; i++) {
+    if(e.keyCode == keys[i].getAttribute("data-key")) {
+      // console.log("I found the " + pressedKey + "!")
+      keys[i].classList.add("playing");
+      for(var j=0; i < audioClips.length; j++) {
+        if(e.keyCode == audioClips[j].getAttribute("data-key")) {
+          return audioClips[j].play();
+        }
+      }
+      break;
+    };
+  };
+});
+
+// Remove class.
+
+window.addEventListener('keyup', function(e) {
+  
+  for(var i = 0; i < keys.length; i++) {
+    if(e.keyCode == keys[i].getAttribute("data-key")) {
+      // console.log("I found the " + pressedKey + "!")
+      keys[i].classList.remove("playing");
+      for(var j=0; i < audioClips.length; j++) {
+        if(e.keyCode == audioClips[j].getAttribute("data-key")) {
+          audioClips[j].pause();
+          audioClips[j].currentTime = 0;
+          break;
+        }
+      }
+      break;
+    };
+  };
+});
+
+// Assign on keypress event to all divs with class key.
+//
+// var audioClips = document.getElementsByTagName('audio');
+// var keys = document.getElementsByClassName('key');
+//
+// keys.onclick = function() {
+//
+// };
+// keys.onkeypress = playSound();
+//
+// function playSound() {
+//   var soundKey = this;
+//   soundKey = soundKey.getAttribute("data-key");
+//   for(var i = 0; i < audioClips.length; i++) {
+//     if(soundKey == audioClips[i].getAttribute("data-key")) {
+//       return audioClips[i].play();
+//     }
+//   }
+// }
+
 </script>
 
 
