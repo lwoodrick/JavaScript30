@@ -58,16 +58,43 @@
     .hand {
       width:50%;
       height:6px;
-      background:black;
+      background:white;
       position: absolute;
       top:50%;
+      border-radius: 3px;
+      transform-origin: right;
+      transform: rotate(90deg);
+      transition: all 0.05s ease-in-out;
     }
 
   </style>
 
   <script>
+    function setDate() {
+      const now = new Date();
+      const seconds = now.getSeconds();
+      const minutes = now.getMinutes();
+      const hours = now.getHours();
 
+      var secondHand = document.getElementsByClassName('second-hand')[0];
+      var minuteHand = document.getElementsByClassName('min-hand')[0];
+      var hourHand = document.getElementsByClassName('hour-hand')[0];
 
+      if(seconds == 0) {
+        secondHand.style.transition = "none";
+      }
+      if(minutes == 0) {
+        minuteHand.style.transition = "none";
+      }
+      if(hours == 0) {
+        hourHand.style.transition = "none";
+      }
+
+      secondHand.style.transform = "rotate(" + (90 + 6 * seconds) + "deg)";
+      minuteHand.style.transform = "rotate(" + (90 + 6 * minutes) + "deg)";
+      hourHand.style.transform = "rotate(" + (90 + 30 * hours) + "deg)";
+    }
+    setInterval(setDate, 1000); // Set the setDate function to run every second.
   </script>
 </body>
 </html>
