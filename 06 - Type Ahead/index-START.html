@@ -15,7 +15,84 @@
     </ul>
   </form>
 <script>
+
+// This here is, when you look at the file, an external source file of an array of objects with city-based info.
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+// Now we're pulling the actual stuff into the app.
+
+const cities = [];
+
+// Uh... this is fun. Promises be crazy, here are some docs for reference.
+// Promises: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+// Fetch: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+
+fetch(endpoint)
+  .then(blob => blob.json())
+  .then(data => cities.push(...data))
+
+// (5:56) Now it's time to grab the contents of the input as it changes,
+// then look through the city and state properties for a text match.
+
+const searchBox = document.querySelector('input.search')
+
+console.log(searchBox.value)
+
+// Pasting that into the console returns something new whenever I run it after changing the value.
+// That's one thing... now to try and log the value to the console any time the value changes.
+
+// I add an event listener to the input, then after ascertaining that the input event from this
+// list (https://developer.mozilla.org/en-US/docs/Web/Events) sounds the best, plug that in there
+// because value change events sounds pretty good to me.
+
+// STEP ONE CHECK: Comment this in and out and see what happens in the browser when you type into the input.
+
+// searchBox.addEventListener('input', grabYoCity)
+//
+// function grabYoCity() {
+//   console.log(searchBox.value);
+// }
+
+// Well, that's cool. But now we need to build out the function triggered by the
+// event listener so we can look through the cities and states in the cities array
+// for matches, then spit them out.
+
+searchBox.addEventListener('input', typeAheadFinder);
+
+// The Array method .forEach() sounded about right for a loop, so I went ahead and plugged it in.
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+
+// The String method match also seemed like a good bet, since we're comparing strings within cities
+// with the string from the input.
+
+function typeAheadFinder(){
+  // Empty out the suggestions list because WE'RE SERVIN' RESULTS.
+
+  var typeAheadResults = ""
+  document.querySelector('ul.suggestions').innerHTML = typeAheadResults;
+
+  var cityList = cities;
+
+  cityList.forEach(function(selectedCity){
+
+    // Because it kept giving me a syntax error on what looked like a completely valid if statement,
+    // I'm breaking these up into variables so the statement doesn't choke.
+
+    var matchInput = searchBox.value.toLowerCase();
+    var matchCity = selectedCity.city.toLowerCase();
+    var matchState = selectedCity.state.toLowerCase();
+
+    if(matchCity.match(matchInput) != null || matchState.match(matchInput)) {
+      // console.log(selectedCity.city + ", " + selectedCity.state)
+      typeAheadResults += `<li><span class="name">${selectedCity.city}, ${selectedCity.state}</span><span class="population">${selectedCity.population}</span></li>`
+    }
+
+    document.querySelector('ul.suggestions').innerHTML = typeAheadResults;
+
+  });
+}
+
+// Well, the above (lines 60 to 93) worked, but it took forever long to execute.
 
 </script>
   </body>
