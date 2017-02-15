@@ -7,6 +7,16 @@
 </head>
 <body>
 <script>
+const pressed = [];
+const secretCode = 'ArrowUpArrowUpArrowDownArrowDownArrowLeftArrowRightArrowLeftArrowRightba';
+window.addEventListener('keyup', (e) => {
+  pressed.push(e.key);
+  pressed.splice(-11, pressed.length - 10);
+  if(pressed.join('').includes(secretCode)) {
+    console.log("YOU FOUND IT.")
+    cornify_add();
+  }
+});
 </script>
 </body>
 </html>
