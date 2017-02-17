@@ -76,3 +76,18 @@
       outline:0;
       border:1px solid rgba(0,0,0,0.1);
     }
+
+    .extra-features {
+      display: flex;
+      margin-top: 20px;
+      justify-content: space-between;
+    }
+
+    button {
+      background-color: #7e223e;
+      color: #fff;
+      border-radius: 0;
+      border-style: none;
+      border: none;
+      padding: 5px 10px;
+    }
