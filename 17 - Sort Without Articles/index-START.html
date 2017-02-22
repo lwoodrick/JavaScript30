@@ -46,46 +46,13 @@
 const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
 const listContainer = document.querySelector('#bands');
 
-function populateList(list) {
-  listContainer.innerHTML = list.map((listItem, i) => {
-    return `<li>${listItem}</li>`
-  }).join('');
-};
-
-function alphabetizeSansArticles(list) {
-  const freshList = list.slice().sort((a,b) => {
-    function nixArticles(listItem){
-      if(listItem.toLowerCase().startsWith("the ")) {
-        return listItem.substring(4, listItem.length);
-      }
-      else if(listItem.toLowerCase().startsWith("a ")) {
-        return listItem.substring(2, listItem.length);
-      }
-      else if(listItem.toLowerCase().startsWith("an ")) {
-        return listItem.substring(3, listItem.length);
-      }
-      else {
-        return listItem;
-      }
-    }
-
-    let listItemA = nixArticles(a);
-    let listItemB = nixArticles(b);
-
-    if(listItemA < listItemB) {
-      return -1;
-    }
-    if(listItemA > listItemB) {
-      return 1;
-    }
-    return 0;
-  })
-  return freshList;
+function strip(bandName) {
+  return bandName.replace(/^(a |the |an )/i, '').trim();
 }
 
-const sortedBands = alphabetizeSansArticles(bands);
-populateList(sortedBands);
+const sortedBands = bands.slice().sort((a,b) => strip(a) > strip(b) ? 1 : -1);
 
+listContainer.innerHTML = sortedBands.map(band => `<li>${band}</li>`).join('');
 
 </script>
 
