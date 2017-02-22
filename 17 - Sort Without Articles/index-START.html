@@ -53,7 +53,7 @@ function populateList(list) {
 };
 
 function alphabetizeSansArticles(list) {
-  list.sort((a,b) => {
+  const freshList = list.slice().sort((a,b) => {
     function nixArticles(listItem){
       if(listItem.toLowerCase().startsWith("the ")) {
         return listItem.substring(4, listItem.length);
@@ -80,10 +80,11 @@ function alphabetizeSansArticles(list) {
     }
     return 0;
   })
+  return freshList;
 }
 
-alphabetizeSansArticles(bands);
-populateList(bands);
+const sortedBands = alphabetizeSansArticles(bands);
+populateList(sortedBands);
 
 
 </script>
